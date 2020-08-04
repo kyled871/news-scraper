@@ -1,0 +1,14 @@
+body {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.gamer-nav {
+    background-color: #ffc965;
+}
+
+.scraperButtons {
+    padding: 5px;
+    margin: 10px;
+}
