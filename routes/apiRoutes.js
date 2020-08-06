@@ -5,7 +5,7 @@ var db = require('../models');
 module.exports = function(app) {
 
     // scrapes all of the news headlines, body and links from selected site --------------
-    app.get("/scrape", function(req, res) {
+    app.get("/api/scrape", function(req, res) {
 
         axios.get("https://www.techradar.com/news/gaming").then(function(response) {
 
@@ -30,10 +30,10 @@ module.exports = function(app) {
 
                 db.Article.create(result)
                 .then(function(dbArticle) {
-                    console.log(dbArticle);
+                    res.json(dbArticle)
                 })
                 .catch(function(err) {
-                    console.log(err)
+                    res.json(err)
                 })
 
             })
@@ -65,10 +65,10 @@ module.exports = function(app) {
         .catch(function(err) {
             res.json(err)
         })
-    })
+    });
 
 
-    // creates a note and updates to the specified articles id
+    // creates a note and updates to the specified articles id ---------------------
     app.post("/api/articles/:id", function(req, res) {
         db.Note.create(req.body)
         .then(function(dbNote) {
@@ -79,6 +79,32 @@ module.exports = function(app) {
         })
         .catch(function(err) {
             res.json(err)
+        })
+    });
+
+
+    // deletes note by id --------------------
+    app.delete("/api/note/:id", function(req, res) {
+        db.Note.deleteOne({_id: req.params.id}, function(err) {
+            
+        })
+        .then(function() {
+            res.status(200).end()
+        })
+        .catch(function(err) {
+            res.status(400).send(err)
+        })
+    });
+
+
+    // !!!! deletes entire db contents !!!! ------------------------------
+    app.delete("/api/clear-database", function(req, res) {
+        db.Article.deleteMany({})
+        .then(function() {
+            res.status(200).end()
+        })
+        .catch(function(err) {
+            res.status(400).send(err)
         })
     })
 
