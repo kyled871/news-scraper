@@ -4,6 +4,7 @@ var db = require('../models');
 
 module.exports = function(app) {
 
+    // scrapes all of the news headlines, body and links from selected site --------------
     app.get("/scrape", function(req, res) {
 
         axios.get("https://www.techradar.com/news/gaming").then(function(response) {
@@ -37,6 +38,47 @@ module.exports = function(app) {
 
             })
             res.send('Scrape Complete')
+        })
+    });
+
+
+    // gets all of articles from the db collection
+    app.get("/api/articles", function(req, res) {
+        db.Article.find({})
+        .populate("Note")
+        .then(function(result) {
+            res.json(result)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+    });
+
+
+    // gets article from the ObjectId
+    app.get("/api/articles/:id", function(req, res) {
+        db.Article.findOne({_id: req.params.id})
+        .populate("Note")
+        .then(function(result) {
+            res.json(result)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+    })
+
+
+    // creates a note and updates to the specified articles id
+    app.post("/api/articles/:id", function(req, res) {
+        db.Note.create(req.body)
+        .then(function(dbNote) {
+            return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {note: dbNote._id}}, {new: true})
+        })
+        .then(function(result) {
+            res.json(result)
+        })
+        .catch(function(err) {
+            res.json(err)
         })
     })
 
