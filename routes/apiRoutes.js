@@ -30,10 +30,10 @@ module.exports = function(app) {
 
                 db.Article.create(result)
                 .then(function(dbArticle) {
-                    res.json(dbArticle)
+                    console.log(dbArticle)
                 })
                 .catch(function(err) {
-                    res.json(err)
+                    console.log(err)
                 })
 
             })
