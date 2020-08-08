@@ -156,6 +156,12 @@ $(document).ready(function() {
 
                 emptyDiv.append('<h3 class="text-center card-header container-fluid">There are no articles loaded! :(</h3>')
                 $("#articles").html(emptyDiv)
+
+
+                let emptySave = $('<div>')
+                emptySave.addClass('container-fluid empty-container rounded')
+                emptySave.append('<h3 class="text-center card-header container-fluid">There are no articles saved! :(</h3>')
+                $("#savedArticles").html(emptySave)
             }
 
 
