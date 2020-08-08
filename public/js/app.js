@@ -8,8 +8,27 @@ $(document).ready(function() {
 
     $("#articles").html('<h3>There are no articles loaded!</h3>')
 
+
+    // Scrape Button ---------------
     $(document).on('click', '#scrapeButton', function() {
         scrapeButton()
+    })
+
+
+    // Save Article button --------------
+    $(document).on('click', 'button.saveArticle', function() {
+
+        let selectedArticle = $(this).attr('data-id')
+        
+        console.log(selectedArticle)
+
+        $.post('/api/save-article/' + selectedArticle, function(response) {
+
+            console.log(response)
+            getArticles()
+
+        })
+    
     })
 
 
@@ -38,8 +57,8 @@ $(document).ready(function() {
     
                         $('#articles').append(article)
     
-                        let saveButton = $(`<button data-id=${data[i]._id} id="saveArticle">Save Article</button>`)
-                        saveButton.addClass('btn btn-success mb-3 ml-2')
+                        let saveButton = $(`<button data-id=${data[i]._id}>Save Article</button>`)
+                        saveButton.addClass('btn btn-success mb-3 ml-2 saveArticle')
                         $(article).append(saveButton)
                     }
 
@@ -58,22 +77,13 @@ $(document).ready(function() {
         if (alreadyScraped === false) {
             
             $.get('/api/scrape', function(response) {
-                location.reload()
+                
+                getArticles()
             })
-            getArticles()
             alreadyScraped = true
         } else {
             console.log('Already Scraped!')
         }
-    }
-
-    function saveArticle() {
-
-        $.get('/api/save-article', function(response) {
-            
-        })
-
-        
     }
     
 
