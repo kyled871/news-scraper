@@ -6,7 +6,6 @@ $(document).ready(function() {
 
 
 
-    $("#articles").html('<h3>There are no articles loaded!</h3>')
 
 
     // Scrape Button ---------------
@@ -32,6 +31,12 @@ $(document).ready(function() {
     })
 
 
+    // Clear DB button -------------
+    $(document).on('click', '#clearButton', function() {
+        clearDB()
+    })
+
+
 
     function getArticles() {
         
@@ -40,6 +45,7 @@ $(document).ready(function() {
             if (data.length > 0) {
                 alreadyScraped = true    
                 $("#articles").html('')
+                $('#articles').append('<h3 class="latestNews container-fluid text-center card-header">Latest News:</h3>')
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i].isSaved === false) {
@@ -54,7 +60,7 @@ $(document).ready(function() {
                         articleBody.addClass('article-body card-body')
                         article.append(articleLink)
                         article.append(articleBody)
-    
+
                         $('#articles').append(article)
     
                         let saveButton = $(`<button data-id=${data[i]._id}>Save Article</button>`)
@@ -66,7 +72,14 @@ $(document).ready(function() {
                 }
                 
             } else {
-                console.log('i am empty')
+                
+                let emptyDiv = $('<div>')
+                emptyDiv.addClass('container-fluid empty-container rounded')
+
+                emptyDiv.append('<h3 class="text-center card-header container-fluid">There are no articles loaded! :(</h3>')
+                $("#articles").html(emptyDiv)
+
+
             }
         });
     }
@@ -84,6 +97,16 @@ $(document).ready(function() {
         } else {
             console.log('Already Scraped!')
         }
+    }
+
+    function clearDB() {
+
+        $.get('/api/clear-database', function(response) {
+
+            console.log(response)
+
+            getArticles()
+        })
     }
     
 

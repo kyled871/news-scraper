@@ -122,7 +122,7 @@ module.exports = function(app) {
 
 
     // !!!! deletes entire db contents !!!! ------------------------------
-    app.delete("/api/clear-database", function(req, res) {
+    app.get("/api/clear-database", function(req, res) {
         db.Article.deleteMany({})
         .then(function() {
             res.status(200).end()

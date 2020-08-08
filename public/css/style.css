@@ -57,6 +57,21 @@ body {
     margin-bottom: 20px;
 }
 
+
+.empty-container {
+    background-color: rgb(233,233,233,0.8);
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+
 .scraperButtons {
     background-color: #ffc965;
+}
+
+.latestNews {
+    color: #ffc965;
+    font-family: monospace;
+    text-decoration: underline;
+    font-size: 30px;
 }
