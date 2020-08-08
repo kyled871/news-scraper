@@ -19,13 +19,8 @@ $(document).ready(function() {
 
         let selectedArticle = $(this).attr('data-id')
         
-        console.log(selectedArticle)
-
         $.post('/api/save-article/' + selectedArticle, function(response) {
-
-            console.log(response)
             getArticles()
-
         })
     
     })
@@ -73,6 +68,7 @@ $(document).ready(function() {
                 
             } else {
                 
+                alreadyScraped = false
                 let emptyDiv = $('<div>')
                 emptyDiv.addClass('container-fluid empty-container rounded')
 
@@ -102,9 +98,6 @@ $(document).ready(function() {
     function clearDB() {
 
         $.get('/api/clear-database', function(response) {
-
-            console.log(response)
-
             getArticles()
         })
     }
