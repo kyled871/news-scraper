@@ -17,15 +17,32 @@ $(document).ready(function() {
     function getArticles() {
         
         $.getJSON("/api/articles", function(data) {
-
-            console.log(data.length)
             
             if (data.length > 0) {
-                console.log('i am full')
                 alreadyScraped = true    
                 $("#articles").html('')
                 for (var i = 0; i < data.length; i++) {
-                    
+
+                    if (data[i].isSaved === false) {
+
+                        let article = $('<div>');
+                        article.addClass('container-fluid article-container rounded')
+                        let articleLink = $(`<a data-id="${data[i]._id}"><h3 class="card-header">${data[i].title}</h3></a>`)
+                        articleLink.addClass('article-link')
+                        articleLink.attr('href', data[i].link)
+    
+                        let articleBody = $(`<p>${data[i].synopsis}</p>`)
+                        articleBody.addClass('article-body card-body')
+                        article.append(articleLink)
+                        article.append(articleBody)
+    
+                        $('#articles').append(article)
+    
+                        let saveButton = $(`<button data-id=${data[i]._id} id="saveArticle">Save Article</button>`)
+                        saveButton.addClass('btn btn-success mb-3 ml-2')
+                        $(article).append(saveButton)
+                    }
+
                     
                 }
                 
@@ -41,15 +58,22 @@ $(document).ready(function() {
         if (alreadyScraped === false) {
             
             $.get('/api/scrape', function(response) {
-                
-                console.log(response)
-                
+                location.reload()
             })
             getArticles()
             alreadyScraped = true
         } else {
             console.log('Already Scraped!')
         }
+    }
+
+    function saveArticle() {
+
+        $.get('/api/save-article', function(response) {
+            
+        })
+
+        
     }
     
 

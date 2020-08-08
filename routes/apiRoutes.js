@@ -67,7 +67,7 @@ module.exports = function(app) {
         })
     });
 
-
+    
     // creates a note and updates to the specified articles id ---------------------
     app.post("/api/articles/:id", function(req, res) {
         db.Note.create(req.body)
@@ -83,6 +83,30 @@ module.exports = function(app) {
     });
 
 
+    // saves article by id ------------------
+    app.post("/api/save-article/:id", function(req, res) {
+        db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {isSaved: true}})
+        .then(function(result) {
+            res.json(result)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+    });
+
+
+    // unsaves the article by id -------------------------
+    app.post("/api/unsave-article/:id", function(req, res) {
+        db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {isSaved: false}})
+        .then(function(result) {
+            res.json(result)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+    })
+
+    
     // deletes note by id --------------------
     app.delete("/api/note/:id", function(req, res) {
         db.Note.deleteOne({_id: req.params.id}, function(err) {
@@ -107,5 +131,6 @@ module.exports = function(app) {
             res.status(400).send(err)
         })
     })
+
 
 }

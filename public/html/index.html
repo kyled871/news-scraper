@@ -15,7 +15,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg gamer-nav">
-        <a class="navbar-brand" href="/"><h3>Gamer News</h1></a>
+        <a class="navbar-brand ml-3" href="/"><h2 class="navTitle">Gamer News</h2></a><span class="navTitle">|</span>
 
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navList" aria-controls="navList" aria-expanded="true" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,22 +24,22 @@
         <div class="collapse navbar-collapse" id="navList">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/saved">Saved Articles</a>
+                    <a class="nav-link ml-2" href="/saved"><h3 class="navTitle">Saved Articles</h3></a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="row justify-content-center mt-4">
-        <div class="col-1 scraperButtons" id="scrapeButton">
-            <button type="button" class="btn btn-warning">Scrape Thy News!</button>
+        <div class="col-1">
+            <button type="button" class="btn btn-warning scraperButtons" id="scrapeButton">Scrape Thy News!</button>
         </div>
-        <div class="col-1 scraperButtons" id="clearButton">
-            <button type="button" class="btn btn-warning">Clear Thy History!</button>
+        <div class="col-1">
+            <button type="button" class="btn btn-warning scraperButtons" id="clearButton">Clear Thy History!</button>
         </div>
     </div>
 
-    <div class="row" id="articles"></div>
+    <div id="articles"></div>
 
     
 </body>

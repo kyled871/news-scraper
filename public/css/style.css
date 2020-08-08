@@ -4,11 +4,58 @@ body {
     background-size: cover;
 }
 
+
 .gamer-nav {
     background-color: #ffc965;
+}
+
+.navTitle {
+    color: black;
+    font-family: monospace;
+
+}
+
+.navTitle:hover {
+    color: #1a2738;
+    position: relative;
+    bottom: -2px;
+    text-decoration: underline;
 }
 
 .scraperButtons {
     padding: 5px;
     margin: 10px;
+}
+
+#articles {
+    margin-top: 200px;
+}
+
+.article-link {
+    color: #ffc965;
+}
+
+#saveArticle {
+    background-color: #ffc965;
+    color: black;
+    border: none;
+}
+
+#saveArticle:hover {
+    position: relative;
+    bottom: -2px;
+}
+
+.article-body {
+    font-weight: bolder;
+}
+
+.article-container {
+    background-color: rgb(233,233,233,0.5);
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.scraperButtons {
+    background-color: #ffc965;
 }
