@@ -27,7 +27,7 @@ body {
     margin: 10px;
 }
 
-#articles {
+#articles, #savedArticles {
     margin-top: 200px;
 }
 
@@ -35,13 +35,13 @@ body {
     color: #ffc965;
 }
 
-.saveArticle {
+.saveArticle, .unsaveArticle {
     background-color: #ffc965;
     color: black;
     border: none;
 }
 
-.saveArticle:hover {
+.saveArticle:hover, .unsaveArticle:hover  {
     position: relative;
     bottom: -2px;
     background-color: #ffc965;
@@ -54,6 +54,12 @@ body {
 .article-container {
     background-color: rgb(233,233,233,0.5);
     width: 80%;
+    margin-bottom: 20px;
+}
+
+.savedArticle-container {
+    background-color: rgb(233,233,233,0.5);
+    width: 60%;
     margin-bottom: 20px;
 }
 

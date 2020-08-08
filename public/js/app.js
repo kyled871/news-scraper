@@ -25,6 +25,46 @@ $(document).ready(function() {
     
     })
 
+    // Unsave Article button --------------
+    $(document).on('click', 'button.unsaveArticle', function() {
+
+        let selectedArticle = $(this).attr('data-id')
+        
+        $.post('/api/unsave-article/' + selectedArticle, function(response) {
+            getArticles()
+        })
+    
+    })
+
+
+    // Save Note button -------------------
+    $(document).on('click', 'button.saveNote', function() {
+
+        let selectedArticle = $(this).attr('data-id')
+
+        let selectedNote = $(`textarea[data-id="${selectedArticle}"]`).val().trim()
+
+
+        $.post("/api/articles/" + selectedArticle, {note: selectedNote}, function(data) {
+
+            let notesArr = []
+
+            for (let i = 0; i < data.note.length; i++) {
+
+                let note = data.note[i].note
+
+                note.push(notesArr)
+
+                console.log(notesArr)
+                
+            }
+            getArticles()
+        })
+        
+
+
+    })
+
 
     // Clear DB button -------------
     $(document).on('click', '#clearButton', function() {
@@ -41,6 +81,11 @@ $(document).ready(function() {
                 alreadyScraped = true    
                 $("#articles").html('')
                 $('#articles').append('<h3 class="latestNews container-fluid text-center card-header">Latest News:</h3>')
+                
+                $("#savedArticles").html('')
+                $('#savedArticles').append('<h3 class="latestNews container-fluid text-center card-header">Saved:</h3>')
+
+
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i].isSaved === false) {
@@ -60,7 +105,39 @@ $(document).ready(function() {
     
                         let saveButton = $(`<button data-id=${data[i]._id}>Save Article</button>`)
                         saveButton.addClass('btn btn-success mb-3 ml-2 saveArticle')
-                        $(article).append(saveButton)
+                        article.append(saveButton)
+                        
+                    } else {
+
+                        let article = $('<div>');
+                        article.addClass('container-fluid savedArticle-container rounded')
+
+                        let articleLink = $(`<a data-id="${data[i]._id}"><h3 class="card-header">${data[i].title}</h3></a>`)
+                        articleLink.addClass('article-link')
+                        articleLink.attr('href', data[i].link)
+        
+                        let articleBody = $(`<p>${data[i].synopsis}</p>`)
+                        articleBody.addClass('article-body card-body')
+
+                        let unsaveButton = $(`<button data-id=${data[i]._id}>Unsave Article</button>`)
+                        unsaveButton.addClass('btn btn-success mb-3 ml-2 unsaveArticle')
+
+                        let noteBody = $(`<ul data-id="${data[i]._id}">Notes: </ul>`);
+                        let noteArea = $(`<textarea data-id="${data[i]._id}" id="noteArea" class="col-4"></textarea>`)
+                        
+                        let saveNote = $(`<button data-id=${data[i]._id}>Save Note</button>`)
+                        saveNote.addClass('btn btn-success mb-3 ml-2 saveNote pull-right')
+                        
+                        article.append(articleLink)
+                        article.append(articleBody)
+                        article.append(unsaveButton)
+                        article.append(noteBody)
+                        article.append(noteArea)
+                        article.append(saveNote)
+        
+                        $('#savedArticles').append(article)
+        
+
                     }
 
                     
@@ -74,9 +151,12 @@ $(document).ready(function() {
 
                 emptyDiv.append('<h3 class="text-center card-header container-fluid">There are no articles loaded! :(</h3>')
                 $("#articles").html(emptyDiv)
-
-
             }
+
+
+
+
+
         });
     }
     
@@ -101,18 +181,5 @@ $(document).ready(function() {
             getArticles()
         })
     }
-    
-
-    
-    
-
-    
-
-
-
-
-
-
-
 
 })

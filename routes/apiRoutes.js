@@ -30,10 +30,8 @@ module.exports = function(app) {
 
                 db.Article.create(result)
                 .then(function(dbArticle) {
-                    console.log(dbArticle)
                 })
                 .catch(function(err) {
-                    console.log(err)
                 })
 
             })
@@ -45,7 +43,7 @@ module.exports = function(app) {
     // gets all of articles from the db collection
     app.get("/api/articles", function(req, res) {
         db.Article.find({})
-        .populate("Note")
+        .populate("note")
         .then(function(result) {
             res.json(result)
         })
@@ -58,7 +56,7 @@ module.exports = function(app) {
     // gets article from the ObjectId
     app.get("/api/articles/:id", function(req, res) {
         db.Article.findOne({_id: req.params.id})
-        .populate("Note")
+        .populate("note")
         .then(function(result) {
             res.json(result)
         })
@@ -75,7 +73,16 @@ module.exports = function(app) {
             return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {note: dbNote._id}}, {new: true})
         })
         .then(function(result) {
-            res.json(result)
+
+                db.Article.findOne({_id: result._id})
+                .populate("note")
+                .then(function(result) {
+                    res.json(result)
+                })
+                .catch(function(err) {
+                    res.json(err)
+                })
+            
         })
         .catch(function(err) {
             res.json(err)
@@ -97,7 +104,7 @@ module.exports = function(app) {
 
     // unsaves the article by id -------------------------
     app.post("/api/unsave-article/:id", function(req, res) {
-        db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {isSaved: false}})
+        db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {isSaved: false, useFindAndModify: false}})
         .then(function(result) {
             res.json(result)
         })
