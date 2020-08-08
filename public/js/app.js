@@ -53,11 +53,16 @@ $(document).ready(function() {
 
                 let note = data.note[i].note
 
-                note.push(notesArr)
+                notesArr.push(note)
 
                 console.log(notesArr)
                 
             }
+
+            notesArr.forEach(note => {
+                noteP = $(`<li><p>${note}</p></li>`)
+                $('#savedArticles').append(noteP)
+            })
             getArticles()
         })
         
