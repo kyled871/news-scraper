@@ -90,3 +90,8 @@ body {
     text-decoration: underline;
 
 }
+
+.liNote {
+    font-family: monospace;
+    font-size: 15px;
+}

@@ -5,9 +5,6 @@ $(document).ready(function() {
     let alreadyScraped = false
 
 
-
-
-
     // Scrape Button ---------------
     $(document).on('click', '#scrapeButton', function() {
         scrapeButton()
@@ -47,29 +44,20 @@ $(document).ready(function() {
 
         $.post("/api/articles/" + selectedArticle, {note: selectedNote}, function(data) {
 
-            let notesArr = []
-
-            for (let i = 0; i < data.note.length; i++) {
-
-                let note = data.note[i].note
-
-                notesArr.push(note)
-
-                console.log(notesArr)
-                
-            }
-
-            notesArr.forEach(note => {
-                noteP = $(`<li><p>${note}</p></li>`)
-                $('#savedArticles').append(noteP)
-            })
             getArticles()
         })
-        
-
-
     })
 
+
+    $(document).on('click', 'button.removeNote', function() {
+
+        let selectedNote = $(this).attr('data-id')
+
+        $.get("/api/note/" + selectedNote, function(response) {
+            getArticles()
+        })
+
+    })
 
     // Clear DB button -------------
     $(document).on('click', '#clearButton', function() {
@@ -114,6 +102,8 @@ $(document).ready(function() {
                         
                     } else {
 
+
+
                         let article = $('<div>');
                         article.addClass('container-fluid savedArticle-container rounded')
 
@@ -127,15 +117,33 @@ $(document).ready(function() {
                         let unsaveButton = $(`<button data-id=${data[i]._id}>Unsave Article</button>`)
                         unsaveButton.addClass('btn btn-success mb-3 ml-2 unsaveArticle')
 
-                        let noteBody = $(`<ul data-id="${data[i]._id}">Notes: </ul>`);
+                        let noteBody = $(`<ul data-id="${data[i]._id}" class="notesHeader"><strong class="mb-3">Notes: </strong></ul>`);
+
                         let noteArea = $(`<textarea data-id="${data[i]._id}" id="noteArea" class="col-4"></textarea>`)
                         
-                        let saveNote = $(`<button data-id=${data[i]._id}>Save Note</button>`)
+                        let saveNote = $(`<button data-id="${data[i]._id}">Save Note</button>`)
                         saveNote.addClass('btn btn-success mb-3 ml-2 saveNote pull-right')
+
+                        if (data[i].note.length > 0) {
+
+                            data[i].note.forEach(singleNote => {
+
+                                let noteLi = $(`<li data-id="${singleNote._id}"><p class="liNote">- ${singleNote.note}</p></li>`)
+                                noteLi.addClass('col-4')
+                                let removeNote = $(`<button data-id="${singleNote._id}">Remove</button>`)
+                                removeNote.addClass('btn btn-danger mb-3 ml-2 removeNote pull-right')
+                                
+                                noteBody.append(noteLi)
+                                noteBody.append(removeNote)
+
+                                
+                            });
+                        }
                         
                         article.append(articleLink)
                         article.append(articleBody)
                         article.append(unsaveButton)
+                        article.append('<hr>')
                         article.append(noteBody)
                         article.append(noteArea)
                         article.append(saveNote)

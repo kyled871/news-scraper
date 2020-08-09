@@ -115,7 +115,7 @@ module.exports = function(app) {
 
     
     // deletes note by id --------------------
-    app.delete("/api/note/:id", function(req, res) {
+    app.get("/api/note/:id", function(req, res) {
         db.Note.deleteOne({_id: req.params.id}, function(err) {
             
         })
@@ -137,7 +137,16 @@ module.exports = function(app) {
         .catch(function(err) {
             res.status(400).send(err)
         })
+
+        db.Note.deleteMany({})
+        .then(function() {
+            res.status(200).end()
+        })
+        .catch(function(err) {
+            res.status(400).send(err)
+        })
     })
+
 
 
 }
