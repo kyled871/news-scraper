@@ -1,7 +1,14 @@
+html {
+    overflow-x: hidden;
+}
+
 body {
     background-image: url("../images/background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-color: #1a2738;
 }
 
 
@@ -52,13 +59,13 @@ body {
 }
 
 .article-container {
-    background-color: rgb(233,233,233,0.5);
+    background-color: rgb(233,233,233,0.7);
     width: 80%;
     margin-bottom: 20px;
 }
 
 .savedArticle-container {
-    background-color: rgb(233,233,233,0.5);
+    background-color: rgb(233,233,233,0.7);
     width: 60%;
     margin-bottom: 20px;
 }
@@ -76,10 +83,13 @@ body {
 }
 
 .latestNews {
-    color: #ffc965;
+    color: black;
     font-family: monospace;
     text-decoration: underline;
     font-size: 30px;
+    background-color: rgb(233,233,233,0.8);
+    margin-bottom: 20px;
+    width: 20%;
 }
 
 .thisActive {
@@ -94,4 +104,9 @@ body {
 .liNote {
     font-family: monospace;
     font-size: 15px;
+}
+
+#vikingHelmet {
+    width: 40px;
+    height: 40px;
 }

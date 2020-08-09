@@ -4,6 +4,12 @@ $(document).ready(function() {
     getArticles()
     let alreadyScraped = false
 
+    let fusRoDah = document.createElement('audio');
+    fusRoDah.src = './audio/FusRoDah.mp3';
+
+    let violatedTheLaw = document.createElement('audio');
+    violatedTheLaw.src = './audio/violatedlaw.mp3';
+
 
     // Scrape Button ---------------
     $(document).on('click', '#scrapeButton', function() {
@@ -184,6 +190,8 @@ $(document).ready(function() {
 
         if (alreadyScraped === false) {
             
+            fusRoDah.play()
+            
             $.get('/api/scrape', function(response) {
                 
                 getArticles()
@@ -199,6 +207,10 @@ $(document).ready(function() {
         $.get('/api/clear-database', function(response) {
             getArticles()
         })
+
+        if (alreadyScraped === true) {
+            violatedTheLaw.play()
+        }
     }
 
 })
